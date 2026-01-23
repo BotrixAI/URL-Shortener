@@ -1,65 +1,122 @@
-import Image from "next/image";
+"use client";
+
+import React from "react";
+import { useRouter } from "next/navigation";
+
+import { Herosection } from "@/constants/data";
+import LeftCard from "@/components/LeftCard";
+import RightCard from "@/components/RightCard";
+import Footer from "@/components/Footer";
+import UrlMockDemo from "@/components/UrlMockDemo";
+
+import { CardDescription } from "@/constants/data";
+
+import cardone from "@/assets/card/card-one.png";
+import cardtwo from "@/assets/card/card-two.png";
+import cardthree from "@/assets/card/card-three.png";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
+  const router = useRouter();
+
+  const handleAuth = () => {
+    router.push("/auth");
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div className="dark:bg-bg-primary-dark bg-bg-primary-light">
+   <Navbar />
+      {/* Hero Section */}
+      <section>
+        <div
+          id="home"
+          className="flex flex-col gap-10 h-4/5 md:h-screen items-center justify-start pt-12 lg:pt-0 md:justify-center
+                     dark:bg-bg-primary-dark dark:text-dark-text bg-bg-primary-light md:px-28"
+        >
+          <div className="flex flex-col justify-center gap-4 px-6 md:px-0">
+            <div className="text-center font-semibold">
+              <span className="text-secondary md:text-primary">
+                Supercharge Every Link with
+              </span>
+              <span className="text-secondary md:text-primary text-transparent bg-linear-90 from-teal-400 to-teal-600 bg-clip-text">
+                {" "}BotrixAI -{" "}
+              </span>
+              <span className="text-secondary md:text-primary">
+                {Herosection.mainContent}
+              </span>
+            </div>
+
+            <p className="text-normal text-center dark:text-primary-color">
+              {Herosection.subContent}
+            </p>
+          </div>
+
+          <div className="flex justify-center">
+            <button
+              className="bg-btn-primary hover:bg-btn-hover cursor-pointer w-32 h-12 rounded-lg text-black"
+              onClick={handleAuth}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              Get Started
+            </button>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Features Section */}
+      <section>
+        <div
+          id="features"
+          className="bg-bg-primary-light dark:bg-bg-primary-dark dark:text-dark-text
+                     px-6 md:px-28 mt-8 scroll-mt-28"
+        >
+          <div>
+            <span className="text-secondary font-semibold">Features in </span>
+            <span className="text-secondary text-transparent bg-linear-90 from-teal-400 to-teal-600 bg-clip-text font-semibold">
+              URL
+            </span>
+            <span className="text-secondary font-semibold"> Shortener</span>
+
+            <p className="text-small mt-2">
+              Generate short links instantly, personalize them with custom codes,
+              set expiry limits, and track everything with link history.
+            </p>
+          </div>
+
+          <div className="mt-8 flex flex-col gap-4 md:gap-16">
+            <LeftCard img={cardone} desc={CardDescription.card1} />
+            <RightCard img={cardtwo} desc={CardDescription.card2} />
+            <LeftCard img={cardthree} desc={CardDescription.card3} />
+          </div>
         </div>
-      </main>
+      </section>
+
+      {/* Integration Section */}
+      <section className="mt-14">
+        <div
+          id="integration"
+          className="bg-bg-primary-light dark:bg-bg-primary-dark dark:text-dark-text
+                     px-6 md:px-28 mt-4 mb-14 scroll-mt-28"
+        >
+          <div>
+            <span className="text-secondary font-semibold">Implementation of </span>
+            <span className="text-secondary text-transparent bg-linear-90 from-teal-400 to-teal-600 bg-clip-text font-semibold">
+              URL
+            </span>
+            <span className="text-secondary font-semibold"> Shortener</span>
+
+            <p className="text-small mt-2">
+              Experience how a long link transforms instantly into a simple,
+              shareable short URL.
+            </p>
+          </div>
+
+          <div className="mt-8 flex flex-col gap-4 md:gap-16">
+            <UrlMockDemo />
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 }

@@ -1,26 +1,33 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-bg-primary-dark: oklch(0.1853 0.0188 284.65);
+  --color-bg-primary-light: #fff;
+  --color-btn-primary: oklch(91.72% 0.1254 172.56);
+  --color-btn-hover: oklch(92.72% 0.1854 172.56);
+  --color-dark-text: oklch(1 0 44);
+  --color-border-light: #000;
+  --color-border-dark: #fff;
+  --text-primary: 48px;
+  --text-secondary: 24px;
+  --text-normal: 16px;
+  --text-card-headings: 18px;
+  --text-small: 14px;
+  --color-primary-color: rgba(149, 149, 149, 0.749);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    font-family: "Poppins", "Poppins Fallback";
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  html {
+    background-color: var(--color-bg-primary-light);
+  }
+
+  html.dark {
+    background-color: var(--color-bg-primary-dark);
+  }
 }
