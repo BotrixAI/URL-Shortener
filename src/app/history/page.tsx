@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { IoClose } from "react-icons/io5";
+import BotrixAI_Light from "@/assets/BotrixAI_Light.avif";
 
 export default function HistoryPage() {
   const router = useRouter();
@@ -182,9 +184,25 @@ export default function HistoryPage() {
       {/* QR Modal */}
       {showQrModal && qrUrl && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 w-80">
+          <div className="bg-white rounded-xl p-6 w-80 relative">
+            <button
+              onClick={() => setShowQrModal(false)}
+              aria-label="Close QR code popup"
+              className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
+            >
+              <IoClose className="text-2xl cursor-pointer" />
+            </button>
             <h2 className="text-lg font-semibold mb-4 text-center">QR Code</h2>
-            <img src={qrUrl} alt="QR" className="mx-auto mb-4" />
+            <div className="relative mx-auto mb-4 h-[250px] w-[250px]">
+              <img src={qrUrl} alt="QR" className="h-full w-full" />
+              <div className="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow">
+                <img
+                  src={BotrixAI_Light.src}
+                  alt="BotrixAI logo"
+                  className="h-4  rounded-full "
+                />
+              </div>
+            </div>
             <div className="flex justify-between">
               <a
                 href={qrUrl}

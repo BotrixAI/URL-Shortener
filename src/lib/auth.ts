@@ -58,31 +58,55 @@ export const authOptions: AuthOptions = {
     }),
   ],
 
-callbacks: {
-  async signIn({ user, account }) {
-    if (!user.email || !account) return false;
-    await dbConnect();
+  callbacks: {
+    async signIn({ user, account }) {
+      if (!user.email || !account) return false;
+      await dbConnect();
 
-    let dbUser = await User.findOne({ email: user.email });
+      let dbUser = await User.findOne({ email: user.email });
 
-    if (!dbUser) {
-      await User.create({
-        email: user.email,
-        providers: [account.provider],
-      });
-    } else {
-      if (!dbUser.providers) dbUser.providers = [];
+      if (!dbUser) {
+        await User.create({
+          email: user.email,
+          providers: [account.provider],
+        });
+      } else {
+        if (!dbUser.providers) dbUser.providers = [];
 
-      if (!dbUser.providers.includes(account.provider)) {
-        dbUser.providers.push(account.provider);
-        await dbUser.save();
+        if (!dbUser.providers.includes(account.provider)) {
+          dbUser.providers.push(account.provider);
+          await dbUser.save();
+        }
       }
-    }
 
-    return true;
+      return true;
+    },
+    async jwt({ token, user }) {
+      if (user?.id) {
+        token.sub = String(user.id);
+        return token;
+      }
+
+      const rawSub = token.sub;
+      if (rawSub && /^[0-9a-fA-F]{24}$/.test(String(rawSub))) {
+        return token;
+      }
+
+      if (!token.email) return token;
+
+      await dbConnect();
+      const dbUser = await User.findOne({ email: token.email });
+      if (dbUser?._id) {
+        token.sub = dbUser._id.toString();
+      }
+
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user && token.sub) {
+        session.user.id = token.sub;
+      }
+      return session;
+    },
   },
-}
-
-
-
 };

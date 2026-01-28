@@ -24,10 +24,17 @@ export async function POST(req: NextRequest) {
   if (exists)
     return NextResponse.json({ error: "Short key exists" }, { status: 409 });
 
+  const expiresAt =
+    token && body.expiresAt
+      ? body.expiresAt
+      : token
+      ? undefined
+      : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+
   const url = await Url.create({
     originalUrl: body.originalUrl,
     shortKey,
-    expiresAt: body.expiresAt,
+    expiresAt,
     userId,
   });
 

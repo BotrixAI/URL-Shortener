@@ -8,6 +8,8 @@ import LeftCard from "@/components/LeftCard";
 import RightCard from "@/components/RightCard";
 import Footer from "@/components/Footer";
 import UrlMockDemo from "@/components/UrlMockDemo";
+import UrlShortenerForm from "@/components/UrlShortenerForm";
+import RecentUrlsSection from "@/components/RecentUrlsSection";
 
 import { CardDescription } from "@/constants/data";
 
@@ -27,37 +29,49 @@ export default function Home() {
     <div className="dark:bg-bg-primary-dark bg-bg-primary-light">
    <Navbar />
       {/* Hero Section */}
-      <section>
+      <section className="md:mt-8">
         <div
           id="home"
-          className="flex flex-col gap-10 h-4/5 md:h-screen items-center justify-start pt-12 lg:pt-0 md:justify-center
+          className="flex flex-col gap-10 min-h-screen items-center justify-start pt-12 pb-12 lg:pt-0 md:justify-center
                      dark:bg-bg-primary-dark dark:text-dark-text bg-bg-primary-light md:px-28"
         >
-          <div className="flex flex-col justify-center gap-4 px-6 md:px-0">
-            <div className="text-center font-semibold">
-              <span className="text-secondary md:text-primary">
-                Supercharge Every Link with
-              </span>
-              <span className="text-secondary md:text-primary text-transparent bg-linear-90 from-teal-400 to-teal-600 bg-clip-text">
-                {" "}BotrixAI -{" "}
-              </span>
-              <span className="text-secondary md:text-primary">
-                {Herosection.mainContent}
-              </span>
+          <div className="w-full px-4 md:px-0">
+            <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
+              <div className="flex flex-col justify-center gap-4 lg:w-1/2">
+                <div className="text-center lg:text-left font-semibold text-2xl md:text-3xl lg:text-4xl">
+                  <span className="text-secondary md:text-primary">
+                    Supercharge Every Link with
+                  </span>
+                  <span className="text-secondary md:text-primary text-transparent bg-linear-90 from-teal-400 to-teal-600 bg-clip-text">
+                    {" "}BotrixAI -{" "}
+                  </span>
+                  <span className="text-secondary md:text-primary">
+                    {Herosection.mainContent}
+                  </span>
+                </div>
+
+                <p className="text-sm md:text-base lg:text-lg text-center lg:text-left dark:text-primary-color">
+                  {Herosection.subContent}
+                </p>
+
+                <div className="flex justify-center lg:justify-start">
+                  <button
+                    className="bg-btn-primary hover:bg-btn-hover cursor-pointer w-32 h-12 rounded-lg text-black"
+                    onClick={handleAuth}
+                  >
+                    Get Started
+                  </button>
+                </div>
+              </div>
+
+              <div className="lg:w-1/2">
+                <UrlShortenerForm
+                  title="Shorten your URL"
+                  className="rounded-xl border bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-bg-primary-dark"
+                />
+              </div>
             </div>
-
-            <p className="text-normal text-center dark:text-primary-color">
-              {Herosection.subContent}
-            </p>
-          </div>
-
-          <div className="flex justify-center">
-            <button
-              className="bg-btn-primary hover:bg-btn-hover cursor-pointer w-32 h-12 rounded-lg text-black"
-              onClick={handleAuth}
-            >
-              Get Started
-            </button>
+            <RecentUrlsSection className="mt-10 w-full" />
           </div>
         </div>
       </section>

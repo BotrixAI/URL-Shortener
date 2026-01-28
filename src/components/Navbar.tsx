@@ -121,12 +121,12 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="fixed w-full top-14 z-40 bg-bg-primary-light dark:bg-bg-primary-dark">
+        <div className="fixed w-full top-12 z-40 bg-bg-primary-light dark:bg-bg-primary-dark">
           <ul className="flex flex-col">
             {navItems.map((item) => (
               <li
                 key={item.name}
-                className="h-16 flex justify-center items-center hover:bg-gray-100 dark:hover:bg-gray-900"
+                className="h-16 flex justify-center items-center hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-dark-text"
                 onClick={() => setMenuOpen(false)}
               >
                 <Link href={item.href} className="flex gap-1">
