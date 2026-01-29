@@ -112,6 +112,7 @@ export default function HistoryPage() {
                       <a
                         href={`${shortUrlBase}/${url.shortKey}`}
                         target="_blank"
+                        rel="noopener noreferrer"
                       >
                         {shortUrlBase}/{url.shortKey}
                       </a>

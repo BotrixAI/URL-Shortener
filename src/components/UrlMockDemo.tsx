@@ -12,6 +12,8 @@ export default function UrlMockDemoCursor() {
   const [step, setStep] = useState(0);
 
   useEffect(() => {
+    const intervals: Array<ReturnType<typeof setInterval>> = [];
+    const timeouts: Array<ReturnType<typeof setTimeout>> = [];
     const fakeUrl = "https://www.super-long-site-example.com/blog/post/54321";
     const fakeCode = "secret";
     const fakeDate = "2030-01-20";
@@ -26,6 +28,7 @@ export default function UrlMockDemoCursor() {
           setStep(1);
         }
       }, 30);
+      intervals.push(t);
     }
 
     if (step === 1) {
@@ -35,9 +38,11 @@ export default function UrlMockDemoCursor() {
         j++;
         if (j > fakeCode.length) {
           clearInterval(t);
-          setTimeout(() => setStep(2), 300);
+          const next = setTimeout(() => setStep(2), 300);
+          timeouts.push(next);
         }
       }, 60);
+      intervals.push(t);
     }
 
     if (step === 2) {
@@ -47,17 +52,19 @@ export default function UrlMockDemoCursor() {
         k++;
         if (k > fakeDate.length) {
           clearInterval(t);
-          setTimeout(() => setStep(3), 500);
+          const next = setTimeout(() => setStep(3), 500);
+          timeouts.push(next);
         }
       }, 40);
+      intervals.push(t);
     }
 
     if (step === 3) {
-      setTimeout(() => {
+      const start = setTimeout(() => {
         setClicked(true);
-        setTimeout(() => {
+        const show = setTimeout(() => {
           setGenerated(true);
-          setTimeout(() => {
+          const reset = setTimeout(() => {
             setClicked(false);
             setGenerated(false);
             setLongUrl("");
@@ -65,9 +72,17 @@ export default function UrlMockDemoCursor() {
             setDate("");
             setStep(0);
           }, 2500);
+          timeouts.push(reset);
         }, 250);
+        timeouts.push(show);
       }, 700);
+      timeouts.push(start);
     }
+
+    return () => {
+      intervals.forEach((interval) => clearInterval(interval));
+      timeouts.forEach((timeout) => clearTimeout(timeout));
+    };
   }, [step]);
 
   return (

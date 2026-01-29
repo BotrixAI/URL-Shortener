@@ -41,7 +41,7 @@ const Footer = () => {
                 </li>
                 <li className="my-3.5">
                   <a
-                    href="#implementation"
+                    href="#integration"
                     className="text-white no-underline font-medium transition-all hover:text-white/80"
                     aria-label="Navigate to implementation section"
                   >
@@ -126,7 +126,7 @@ const Footer = () => {
               aria-label="Visit our Facebook page"
               href="https://www.facebook.com/people/Botrixai/61577767733320/#"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center w-10 h-10 text-white transition-all hover:text-white/80 hover:scale-110 no-underline"
               tabIndex={0}
             >
@@ -137,7 +137,7 @@ const Footer = () => {
               aria-label="Visit our Instagram page"
               href="https://www.instagram.com/botrixai/"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center w-10 h-10 text-white transition-all hover:text-white/80 hover:scale-110 no-underline"
               tabIndex={0}
             >
@@ -147,7 +147,7 @@ const Footer = () => {
             <a
               aria-label="Visit our WhatsApp"
               href="https://wa.me/917294878246?text=Hello%20I%20want%20a%20demo" target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center w-10 h-10 text-white transition-all hover:text-white/80 hover:scale-110 no-underline"
               tabIndex={0}
             >
@@ -160,7 +160,7 @@ const Footer = () => {
             <a
               href="https://botrixai.com/"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="font-bold text-white hover:text-white/90 no-underline"
               aria-label="Visit BotrixAI website"
             >

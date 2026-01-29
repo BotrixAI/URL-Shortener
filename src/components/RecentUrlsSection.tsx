@@ -136,6 +136,7 @@ export default function RecentUrlsSection({
                     <a
                       href={url.shortUrl}
                       target="_blank"
+                      rel="noopener noreferrer"
                       className="block truncate text-sm text-blue-600"
                     >
                       {url.shortUrl}
@@ -149,6 +150,7 @@ export default function RecentUrlsSection({
                   <a
                     href={url.shortUrl}
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="h-9 rounded-md border px-3 text-xs flex items-center whitespace-nowrap cursor-pointer dark:border-gray-700 dark:text-dark-text"
                   >
                     Visit
@@ -191,6 +193,7 @@ export default function RecentUrlsSection({
                     <a
                       href={url.shortUrl}
                       target="_blank"
+                      rel="noopener noreferrer"
                       className="block truncate text-sm text-blue-600"
                     >
                       {url.shortUrl}
@@ -284,6 +287,7 @@ export default function RecentUrlsSection({
                   key={link.label}
                   href={link.href}
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="rounded-md border px-3 py-2 text-sm text-center flex items-center justify-center gap-2 cursor-pointer dark:border-gray-700 dark:text-dark-text"
                 >
                   {link.icon}
@@ -317,6 +321,7 @@ export default function RecentUrlsSection({
               <a
                 href={actionUrl.shortUrl}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="rounded-md border px-3 py-2 text-sm text-center cursor-pointer dark:border-gray-700 dark:text-dark-text"
               >
                 Visit URL

@@ -1,26 +1,32 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import Url from "@/models/Url";
+import { isValidShortKey, isValidUrl, normalizeShortKey } from "@/lib/validators";
 
 export async function GET(
   req: Request,
   ctx: { params: Promise<{ key: string }> }
 ) {
-  const { key } = await ctx.params; // ✅ IMPORTANT FIX
-
-  console.log("REDIRECT ROUTE HIT:", key);
+  const { key: rawKey } = await ctx.params;
+  const key = normalizeShortKey(rawKey);
 
   await dbConnect();
 
-  const url = await Url.findOne({ shortKey: key });
+  if (!isValidShortKey(key)) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
 
-  console.log("URL FOUND:", url?.originalUrl);
+  const url = await Url.findOne({ shortKey: key });
 
   if (!url) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
   if (url.expiresAt && new Date(url.expiresAt) < new Date()) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  if (!isValidUrl(url.originalUrl)) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 

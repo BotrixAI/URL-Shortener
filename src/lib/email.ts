@@ -1,18 +1,30 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const getEnv = (key: string) => {
+  const value = process.env[key];
+  if (!value) {
+    throw new Error(`${key} not defined`);
+  }
+  return value;
+};
 
 export async function sendResetEmail(email: string, token: string) {
-  const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password?token=${token}`;
+  const resendApiKey = getEnv("RESEND_API_KEY");
+  const emailFrom = getEnv("EMAIL_FROM");
+  const baseUrl = getEnv("NEXTAUTH_URL");
+
+  const resend = new Resend(resendApiKey);
+  const resetUrl = new URL("/reset-password", baseUrl);
+  resetUrl.searchParams.set("token", token);
 
   await resend.emails.send({
-    from: "no-reply@yourdomain.com",
+    from: emailFrom,
     to: email,
     subject: "Reset your password",
     html: `
       <p>You requested a password reset.</p>
       <p>
-        <a href="${resetUrl}">
+        <a href="${resetUrl.toString()}">
           Click here to reset your password
         </a>
       </p>

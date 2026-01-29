@@ -2,15 +2,23 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/User";
+import { sendResetEmail } from "@/lib/email";
+import { isValidEmail, normalizeEmail } from "@/lib/validators";
 
 export async function POST(req: Request) {
-  const { email } = await req.json();
+  const { email: rawEmail } = await req.json();
+  const email = typeof rawEmail === "string" ? normalizeEmail(rawEmail) : "";
+
+  if (!email || !isValidEmail(email)) {
+    return NextResponse.json({ ok: true });
+  }
+
   await dbConnect();
 
   const user = await User.findOne({
-  email,
-  providers: { $in: ["credentials"] },
-});
+    email,
+    providers: { $in: ["credentials"] },
+  });
 
 
   // Avoid email probing
@@ -25,10 +33,13 @@ export async function POST(req: Request) {
   user.resetTokenExpiry = new Date(Date.now() + 15 * 60 * 1000);
   await user.save();
 
-  // ✅ DEV ONLY: log reset link
-  console.log(
-    `RESET LINK → ${process.env.NEXTAUTH_URL}/reset-password?token=${token}`
-  );
+  try {
+    await sendResetEmail(email, token);
+  } catch (error) {
+    if (process.env.NODE_ENV !== "production") {
+      console.error("Failed to send reset email:", error);
+    }
+  }
 
   return NextResponse.json({ success: true });
 }

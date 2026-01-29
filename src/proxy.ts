@@ -14,3 +14,4 @@ export const config = {
     // ❌ DO NOT protect "/:key"
   ],
 };
+

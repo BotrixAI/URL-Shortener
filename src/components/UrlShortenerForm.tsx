@@ -377,6 +377,7 @@ export default function UrlShortenerForm({
             <a
               href={generatedUrl}
               target="_blank"
+              rel="noopener noreferrer"
               className="h-9 rounded-md border px-3 text-xs flex items-center justify-center whitespace-nowrap cursor-pointer dark:border-gray-700 dark:text-dark-text"
             >
               Visit
@@ -476,6 +477,7 @@ export default function UrlShortenerForm({
                   key={link.label}
                   href={link.href}
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="rounded-md border px-3 py-2 text-sm text-center flex items-center justify-center gap-2 cursor-pointer dark:border-gray-700 dark:text-dark-text"
                 >
                   {link.icon}

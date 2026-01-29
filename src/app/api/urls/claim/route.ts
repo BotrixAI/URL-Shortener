@@ -3,6 +3,7 @@ import { getToken } from "next-auth/jwt";
 
 import dbConnect from "@/lib/mongodb";
 import Url from "@/models/Url";
+import { isValidShortKey, normalizeShortKey } from "@/lib/validators";
 
 export async function POST(req: NextRequest) {
   await dbConnect();
@@ -16,15 +17,21 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = await req.json();
-  const shortKeys = Array.isArray(body?.shortKeys) ? body.shortKeys : [];
+  const body = await req.json().catch(() => null);
+  const shortKeys: unknown[] = Array.isArray(body?.shortKeys)
+    ? body.shortKeys
+    : [];
+  const normalized = shortKeys
+    .filter((key): key is string => typeof key === "string")
+    .map((key) => normalizeShortKey(key))
+    .filter((key) => isValidShortKey(key));
 
-  if (shortKeys.length === 0) {
+  if (normalized.length === 0) {
     return NextResponse.json({ updated: 0 });
   }
 
   const result = await Url.updateMany(
-    { shortKey: { $in: shortKeys }, userId: null },
+    { shortKey: { $in: normalized }, userId: null },
     { $set: { userId } }
   );
 

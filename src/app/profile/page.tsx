@@ -163,6 +163,7 @@ export default function ProfilePage() {
                         <a
                           href={`${shortUrlBase}/${u.shortKey}`}
                           target="_blank"
+                          rel="noopener noreferrer"
                         >
                           {shortUrlBase}/{u.shortKey}
                         </a>

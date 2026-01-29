@@ -6,8 +6,10 @@ import bcrypt from "bcryptjs";
 
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/User";
+import { normalizeEmail } from "@/lib/validators";
 
 export const authOptions: AuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },
@@ -27,21 +29,22 @@ export const authOptions: AuthOptions = {
         },
       },
       async authorize(credentials) {
-  if (!credentials?.email || !credentials?.password) return null;
+        if (!credentials?.email || !credentials?.password) return null;
 
-  await dbConnect();
-  const dbUser = await User.findOne({ email: credentials.email });
+        const email = normalizeEmail(credentials.email);
+        await dbConnect();
+        const dbUser = await User.findOne({ email });
 
-  if (!dbUser || !dbUser.password) return null;
+        if (!dbUser || !dbUser.password) return null;
 
-  const ok = await bcrypt.compare(credentials.password, dbUser.password);
-  if (!ok) return null;
+        const ok = await bcrypt.compare(credentials.password, dbUser.password);
+        if (!ok) return null;
 
-  return {
-    id: dbUser._id.toString(),
-    email: dbUser.email,
-  };
-}
+        return {
+          id: dbUser._id.toString(),
+          email: dbUser.email,
+        };
+      },
 
     }),
 
@@ -63,11 +66,12 @@ export const authOptions: AuthOptions = {
       if (!user.email || !account) return false;
       await dbConnect();
 
-      let dbUser = await User.findOne({ email: user.email });
+      const email = normalizeEmail(user.email);
+      let dbUser = await User.findOne({ email });
 
       if (!dbUser) {
         await User.create({
-          email: user.email,
+          email,
           providers: [account.provider],
         });
       } else {
